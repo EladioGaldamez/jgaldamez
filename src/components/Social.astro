@@ -1,0 +1,51 @@
+---
+const socials = [
+  {
+    name: "GitHub",
+    href: "https://github.com/EladioGaldamez",
+    icon: "iconoir-github",
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/jgaldamez",
+    icon: "iconoir-linkedin",
+  },
+];
+---
+
+<aside
+  class="relative z-20 mt-12 lg:absolute lg:top-1/2 lg:right-4 lg:mt-0 lg:-translate-y-1/2 xl:right-8"
+  aria-label="Social links"
+>
+  <div
+    class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8 lg:flex-col lg:items-center lg:gap-6"
+  >
+    <p
+      class="font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase lg:rotate-180 lg:[writing-mode:vertical-rl]"
+    >
+      Follow me
+    </p>
+    <ul
+      class="flex items-center gap-2 sm:gap-3 lg:flex-col lg:gap-4"
+      role="list"
+    >
+      {
+        socials.map((social) => (
+          <li>
+            <a
+              href={social.href}
+              class="group flex min-h-11 min-w-11 cursor-pointer items-center gap-2 px-2 text-foreground transition-opacity duration-200 hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:min-w-0 lg:flex-col lg:gap-3 lg:px-0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class:list={[social.icon, "text-2xl"]} aria-hidden="true" />
+              <span class="font-mono text-xs tracking-[0.12em] uppercase lg:rotate-180 lg:[writing-mode:vertical-rl]">
+                {social.name}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</aside>

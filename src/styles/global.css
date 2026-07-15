@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Request";
+  src: url("../assets/fonts/Request.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Iosevka";
+  src: url("../assets/fonts/Iosevka-ExtendedLight.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Iosevka";
+  src: url("../assets/fonts/Iosevka-Extended.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Iosevka";
+  src: url("../assets/fonts/Iosevka-ExtendedMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-mono: "Iosevka", ui-monospace, monospace;
+  --font-request: "Request", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #000000;
+  --color-foreground: #ffffff;
+  --color-muted: #1a1a1a;
+  --color-muted-foreground: #a3a3a3;
+  --color-border: rgba(255, 255, 255, 0.18);
+  --color-accent: #ffffff;
+  --color-ring: #ffffff;
+  --color-grid: rgba(255, 255, 255, 0.08);
+  --color-scanline: rgba(255, 255, 255, 0.04);
+}
+
+@layer base {
+  html {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  body {
+    @apply min-h-dvh font-mono bg-background text-foreground overflow-x-hidden;
+  }
+
+  a {
+    @apply text-foreground transition-opacity duration-200;
+  }
+
+  a:hover {
+    @apply opacity-60;
+  }
+
+  a:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring rounded-none;
+  }
+
+  ::selection {
+    @apply bg-foreground text-background;
+  }
+}
+
+@utility moon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 720px);
+  height: min(90vw, 720px);
+  translate: -42% -38%;
+  border-radius: 50%;
+  opacity: 0.4;
+  filter: blur(1px);
+  background:
+    radial-gradient(
+      circle at 38% 35%,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.18) 28%,
+      rgba(255, 255, 255, 0.06) 52%,
+      transparent 72%
+    ),
+    radial-gradient(
+      circle at 62% 68%,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 40%
+    );
+}
+
+@utility grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility bg-scanline {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    var(--color-scanline) 2px,
+    var(--color-scanline) 3px
+  );
+}
+
+@utility bio-grid {
+  position: relative;
+  padding: 1.25rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.35);
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
