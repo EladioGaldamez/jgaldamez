@@ -1,24 +1,122 @@
 ---
 import "@/styles/global.css";
+import { AUTHOR, SITE } from "@/consts";
 
 interface Props {
   title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article" | "profile";
+  noindex?: boolean;
 }
 
-const { title = "José Galdámez" } = Astro.props;
+const {
+  title,
+  description = SITE.description,
+  image = SITE.ogImage,
+  type = "website",
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title ? SITE.titleTemplate.replace("%s", title) : SITE.title;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
+const imageUrl = new URL(image, Astro.site ?? SITE.url);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${SITE.url}/#person`,
+      name: SITE.name,
+      alternateName: "Jose Galdamez",
+      url: SITE.url,
+      image: imageUrl.href,
+      jobTitle: SITE.jobTitle,
+      description: SITE.description,
+      knowsAbout: AUTHOR.skills,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: AUTHOR.location.city,
+        addressCountry: AUTHOR.location.countryCode,
+      },
+      sameAs: AUTHOR.socials,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}/#website`,
+      url: SITE.url,
+      name: SITE.name,
+      description: SITE.description,
+      inLanguage: SITE.lang,
+      publisher: { "@id": `${SITE.url}/#person` },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalUrl.href}#webpage`,
+      url: canonicalUrl.href,
+      name: pageTitle,
+      description,
+      isPartOf: { "@id": `${SITE.url}/#website` },
+      about: { "@id": `${SITE.url}/#person` },
+      primaryImageOfPage: imageUrl.href,
+      inLanguage: SITE.lang,
+    },
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={SITE.lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="José Galdámez — Frontend Engineer based in Guatemala. React, Next.js, Node, and PostgreSQL."
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, nofollow" />
+      ) : (
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
+      )
+    }
+
+    <meta name="author" content={SITE.name} />
+    <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="color-scheme" content="dark" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={SITE.ogImageWidth} />
+    <meta property="og:image:height" content={SITE.ogImageHeight} />
+    <meta property="og:image:alt" content={SITE.ogImageAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={SITE.ogImageAlt} />
+
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(structuredData)}
     />
-    <link rel="icon" href="/favicon.png" />
-    <title>{title}</title>
   </head>
   <body class="relative bg-background text-foreground">
     <slot />
