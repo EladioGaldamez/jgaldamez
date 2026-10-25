@@ -1,0 +1,38 @@
+---
+import Crosshair from "./Crosshair.astro";
+
+interface Props {
+  class?: string;
+  top?: boolean;
+  bottom?: boolean;
+}
+
+const { class: className, top = true, bottom = true } = Astro.props;
+---
+
+<div
+  class:list={[
+    "pointer-events-none absolute inset-x-4 inset-y-0 border-x border-graphite/15 sm:inset-x-8 lg:inset-x-12",
+    className,
+  ]}
+  aria-hidden="true"
+>
+  {
+    top && (
+      <>
+        <div class="absolute inset-x-0 top-0 h-px bg-graphite/15" />
+        <Crosshair class="-top-1.5 -left-1.5" />
+        <Crosshair class="-top-1.5 -right-1.5" />
+      </>
+    )
+  }
+  {
+    bottom && (
+      <>
+        <div class="absolute inset-x-0 bottom-0 h-px bg-graphite/15" />
+        <Crosshair class="-bottom-1.5 -left-1.5" />
+        <Crosshair class="-right-1.5 -bottom-1.5" />
+      </>
+    )
+  }
+</div>

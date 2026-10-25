@@ -1,0 +1,25 @@
+---
+interface Props {
+  class?: string;
+  variant?: "outline" | "nebula" | "galaxy";
+  depth?: number;
+}
+
+const { class: className, variant = "outline", depth = 1 } = Astro.props;
+
+const variants = {
+  outline: "border border-graphite/25",
+  nebula: "bg-nebula/70",
+  galaxy: "bg-galaxy/70",
+};
+---
+
+<span
+  class:list={[
+    "pointer-events-none absolute rounded-full",
+    variants[variant],
+    className,
+  ]}
+  data-float
+  data-depth={depth}
+  aria-hidden="true"></span>

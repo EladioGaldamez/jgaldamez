@@ -1,0 +1,21 @@
+---
+interface Props {
+  index: string;
+  label: string;
+  meta?: string;
+  class?: string;
+}
+
+const { index, label, meta, class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "label-mono flex items-center justify-between gap-4 text-graphite/70",
+    className,
+  ]}
+  data-reveal
+>
+  <span>[{index}] — {label}</span>
+  {meta && <span class="hidden sm:inline">{meta}</span>}
+</div>

@@ -1,12 +1,108 @@
-<header class="relative z-20">
-  <h1
-    class="font-request text-[clamp(2.75rem,10vw,6.5rem)] leading-[0.9] tracking-tight text-balance"
+---
+import { AUTHOR } from "@/consts";
+import { getLocale, useTranslations } from "@/i18n/ui";
+import Crosshair from "./ornaments/Crosshair.astro";
+import FloatingCircle from "./ornaments/FloatingCircle.astro";
+import FrameLines from "./ornaments/FrameLines.astro";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<header
+  class="relative flex min-h-svh flex-col overflow-hidden px-8 pt-8 pb-10 sm:px-14 lg:px-20"
+  data-hero
+>
+  <FrameLines bottom={false} class="top-4 sm:top-6" />
+
+  <FloatingCircle
+    class="top-[42%] -right-[12vw] size-[38vw] max-w-[560px] max-h-[560px] min-w-[260px] min-h-[260px]"
+    depth={0.6}
+  />
+  <FloatingCircle variant="nebula" class="top-[30%] left-[46%] size-5 sm:size-7" depth={2} />
+  <Crosshair class="top-[38%] left-[8%] hidden sm:block" />
+  <Crosshair class="right-[30%] bottom-[22%] hidden sm:block" />
+
+  <div class="label-mono relative z-10 flex justify-between pt-4 text-graphite/70" data-hero-intro>
+    <span>JG — Portfolio</span>
+    <span class="hidden sm:inline">{AUTHOR.location.coords}</span>
+  </div>
+
+  <div
+    class="mt-10 grid flex-1 grid-rows-[auto_1fr_auto] gap-6 lg:mt-16 lg:grid-cols-12 lg:grid-rows-none lg:items-start"
   >
-    José Galdámez
-  </h1>
-  <p
-    class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1 font-mono text-base font-medium tracking-wide sm:text-lg"
-  >
-    <span>Full-stack Developer</span>
-  </p>
+    <div
+      class="sketch-blend pointer-events-none relative z-0 row-start-2 -mx-8 self-end sm:-mx-14 lg:absolute lg:inset-x-0 lg:bottom-0 lg:row-start-auto lg:mx-auto lg:w-[60vw] lg:max-w-[920px]"
+      data-hero-media
+    >
+      <video
+        class="block aspect-video w-full"
+        src="/media/loader.mp4"
+        poster="/media/loader-poster.jpg"
+        width="1280"
+        height="720"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+        data-hero-video></video>
+    </div>
+
+    <h1
+      class="relative z-10 row-start-1 font-display text-[clamp(3.25rem,9vw,8.5rem)] leading-[0.92] tracking-tight lg:col-span-7"
+    >
+      <span class="block overflow-hidden pb-[0.08em]">
+        <span class="block" data-hero-line>{t("hero.first")}</span>
+      </span>
+      <span class="block overflow-hidden pb-[0.08em]">
+        <span class="block" data-hero-line>{t("hero.last")}</span>
+      </span>
+    </h1>
+
+    <div class="relative z-10 row-start-3 max-w-sm lg:col-span-4 lg:col-start-9 lg:row-start-auto lg:pt-6" data-hero-intro>
+      <p class="text-base leading-relaxed text-balance text-graphite sm:text-lg">
+        {t("hero.bio")}
+      </p>
+      <ul class="label-mono mt-6 flex flex-wrap gap-x-3 gap-y-2 text-graphite/70" role="list">
+        <li>{t("hero.role")}</li>
+        <li aria-hidden="true">·</li>
+        <li>{t("hero.city")}</li>
+        <li aria-hidden="true">·</li>
+        <li>{t("hero.since")}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="label-mono relative z-10 mt-8 flex items-center gap-3 text-graphite/70" data-hero-intro>
+    <span class="relative block h-8 w-px overflow-hidden bg-graphite/20">
+      <span class="scroll-tick absolute inset-x-0 top-0 h-3 bg-ink"></span>
+    </span>
+    {t("hero.scroll")}
+  </div>
 </header>
+
+<style>
+  /* While the loader is up, the hero video is pulled to the center of the screen */
+  :global(.is-loading) [data-hero-media] {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    margin: auto;
+    width: min(90vw, 760px);
+    height: fit-content;
+  }
+
+  .scroll-tick {
+    animation: tick 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  @keyframes tick {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(300%);
+    }
+  }
+</style>

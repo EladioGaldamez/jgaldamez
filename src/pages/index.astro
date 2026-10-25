@@ -1,37 +1,5 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-
-import About from "@/components/About.astro";
-import Gallery from "@/components/Gallery.astro";
-import Hero from "@/components/Hero.astro";
-import Social from "@/components/Social.astro";
+import HomePage from "@/components/HomePage.astro";
 ---
 
-<Layout>
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <div class="moon"></div>
-    <div class="grain"></div>
-  </div>
-
-  <div
-    class="pointer-events-none absolute inset-0 z-50 bg-scanline"
-    aria-hidden="true"
-  >
-  </div>
-
-  <main
-    class="relative z-10 mx-auto flex min-h-dvh w-full max-w-7xl flex-col px-5 pt-10 pb-16 sm:px-8 lg:px-12 lg:pt-14"
-  >
-    <Hero />
-
-    <div
-      class="relative mt-12 flex flex-1 flex-col gap-14 lg:mt-16 lg:grid lg:grid-cols-12 lg:items-start lg:gap-8"
-    >
-      <About />
-
-      <Gallery />
-    </div>
-
-    <Social />
-  </main>
-</Layout>
+<HomePage />

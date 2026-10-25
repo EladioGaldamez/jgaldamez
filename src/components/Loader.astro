@@ -1,0 +1,56 @@
+---
+import { getLocale, useTranslations } from "@/i18n/ui";
+import Crosshair from "./ornaments/Crosshair.astro";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<script is:inline>
+  (function () {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) document.documentElement.classList.add("is-loading");
+  })();
+</script>
+
+<div
+  class="loader fixed inset-0 z-50 hidden bg-paper"
+  data-loader
+  role="progressbar"
+  aria-label={t("loader.label")}
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
+>
+  <Crosshair class="top-6 left-6" />
+  <Crosshair class="top-6 right-6" />
+
+  <div
+    class="absolute inset-x-6 bottom-6 flex items-end justify-between gap-6"
+    data-loader-meta
+  >
+    <span class="label-mono text-graphite/70">{t("loader.label")}</span>
+    <span
+      class="font-mono text-[clamp(2.5rem,7vw,5rem)] leading-none font-medium tracking-tight tabular-nums"
+      data-loader-percent>000%</span
+    >
+  </div>
+
+  <div class="absolute inset-x-0 bottom-0 h-px bg-moonrock" data-loader-track>
+    <div
+      class="h-full origin-left scale-x-0 bg-ink"
+      data-loader-bar
+      style="height: 2px; margin-top: -0.5px;"
+    >
+    </div>
+  </div>
+</div>
+
+<style>
+  :global(.is-loading) .loader {
+    display: block;
+  }
+
+  :global(.is-loading) body {
+    overflow: hidden;
+  }
+</style>

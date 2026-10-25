@@ -1,0 +1,132 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { AUTHOR, SITE } from "@/consts";
+import { getLocale, useTranslations } from "@/i18n/ui";
+import Crosshair from "./ornaments/Crosshair.astro";
+import FrameLines from "./ornaments/FrameLines.astro";
+
+const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const otherLang = lang === "en" ? "es" : "en";
+
+const links = [
+  { name: "GitHub", href: AUTHOR.github },
+  { name: "LinkedIn", href: AUTHOR.linkedin },
+  { name: "Twitch", href: AUTHOR.twitch },
+];
+---
+
+<footer class="relative px-8 pt-24 pb-10 sm:px-14 lg:px-20 lg:pt-32" data-footer>
+  <FrameLines class="bottom-4 sm:bottom-6" />
+  <Crosshair class="top-[22%] right-[32%] hidden sm:block" />
+
+  <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+    <h2
+      class="font-display text-[clamp(2.75rem,8vw,7rem)] leading-[0.92] text-balance lg:col-span-9"
+      data-reveal
+    >
+      {t("footer.title")}
+    </h2>
+
+    <div class="flex flex-col gap-4 lg:col-span-3 lg:items-end lg:justify-self-end" data-reveal>
+      <span class="label-mono text-graphite/60">{t("footer.ctaLabel")}</span>
+      <a
+        href={AUTHOR.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="drawn-btn group label-mono relative inline-flex min-h-14 w-fit items-center gap-3 px-7 py-4 text-ink focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-ink"
+      >
+        <span class="drawn-btn__hatch absolute inset-1.5" aria-hidden="true"></span>
+        <svg
+          class="pointer-events-none absolute inset-0 size-full overflow-visible"
+          viewBox="0 0 240 64"
+          preserveAspectRatio="none"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M5 7C62 3 178 2 236 6c3 16 2 36-1 52-66 4-166 5-230 1C2 42 3 24 6 5"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            vector-effect="non-scaling-stroke"></path>
+          <path
+            class="drawn-btn__echo"
+            d="M9 4c70 3 160 1 229 5 1 18-1 34-5 51-70-1-150 2-227-3-3-16-2-34 2-50"
+            stroke="currentColor"
+            stroke-opacity="0.45"
+            stroke-width="1"
+            stroke-linecap="round"
+            vector-effect="non-scaling-stroke"></path>
+        </svg>
+        <span class="relative">{t("footer.cta")}</span>
+        <span class="relative transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="label-mono mt-24 flex flex-col gap-6 border-t border-graphite/15 pt-6 pb-6 text-graphite/70 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+    <ul class="flex flex-wrap gap-x-6 gap-y-2" role="list">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href} target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-ink">
+              {link.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <a href={getRelativeLocaleUrl(otherLang, "")} hreflang={otherLang} class="transition-colors hover:text-ink">
+        <span aria-hidden="true">{lang.toUpperCase()} / </span>{t("footer.lang")}
+      </a>
+      <span>© {new Date().getFullYear()} {SITE.name}</span>
+      <span class="hidden md:inline">{t("footer.rights")}</span>
+      <a href="#top" class="transition-colors hover:text-ink" data-back-to-top>
+        {t("footer.top")} ↑
+      </a>
+    </div>
+  </div>
+
+  <p class="pointer-events-none -mb-2 text-right font-display text-2xl text-graphite/40 select-none" aria-hidden="true">
+    J. Galdámez
+  </p>
+</footer>
+
+<style>
+  .drawn-btn {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .drawn-btn:hover,
+  .drawn-btn:focus-visible {
+    transform: rotate(-1.5deg);
+  }
+
+  /* Graphite hatching that scribbles in from the left on hover */
+  .drawn-btn__hatch {
+    background: repeating-linear-gradient(
+      -55deg,
+      color-mix(in srgb, var(--color-graphite) 55%, transparent) 0 1.2px,
+      transparent 1.2px 5px
+    );
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .drawn-btn:hover .drawn-btn__hatch,
+  .drawn-btn:focus-visible .drawn-btn__hatch {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .drawn-btn__echo {
+    transition: transform 0.4s ease;
+    transform-origin: center;
+  }
+
+  .drawn-btn:hover .drawn-btn__echo {
+    transform: translate(2px, 2px);
+  }
+</style>

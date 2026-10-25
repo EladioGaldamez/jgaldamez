@@ -1,0 +1,19 @@
+---
+interface Props {
+  class?: string;
+  size?: number;
+}
+
+const { class: className, size = 13 } = Astro.props;
+---
+
+<svg
+  class:list={["pointer-events-none absolute text-graphite", className]}
+  width={size}
+  height={size}
+  viewBox="0 0 13 13"
+  fill="none"
+  aria-hidden="true"
+>
+  <path d="M6.5 0v13M0 6.5h13" stroke="currentColor" stroke-width="1"></path>
+</svg>

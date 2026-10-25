@@ -1,22 +1,97 @@
-<section
-  class="relative z-20 lg:col-span-5 xl:col-span-4"
-  aria-labelledby="bio-heading"
->
-  <h2 id="bio-heading" class="sr-only">About</h2>
-  <div class="bio-grid">
-    <div
-      class="flex flex-col gap-4 text-sm leading-relaxed text-foreground/90 sm:text-[0.9375rem] max-w-[42ch]"
-    >
-      <p class="text-balance">
-        Based in Guatemala City, Guatemala. Building interfaces and full-stack
-        products for over six years.
-      </p>
+---
+import { Image } from "astro:assets";
+import { getLocale, useTranslations } from "@/i18n/ui";
+import camera from "@/assets/sketches/sketch-camera.jpg";
+import sketch1 from "@/assets/sketches/sketch-1.jpg";
+import sketch2 from "@/assets/sketches/sketch-2.jpg";
+import sketch3 from "@/assets/sketches/sketch-3.jpg";
+import sketch4 from "@/assets/sketches/sketch-4.jpg";
+import FloatingCircle from "./ornaments/FloatingCircle.astro";
+import FrameLines from "./ornaments/FrameLines.astro";
+import SectionLabel from "./ornaments/SectionLabel.astro";
 
-      <p class="text-balance">
-        I work primarily with React, Next.js, Astro, and Tailwind on the
-        frontend — Node.js on the backend, with PostgreSQL and MySQL in
-        production.
-      </p>
+const t = useTranslations(getLocale(Astro.currentLocale));
+
+const photos = [
+  { src: sketch1, caption: t("about.caption1") },
+  { src: sketch2, caption: t("about.caption2") },
+  { src: sketch3, caption: t("about.caption3") },
+  { src: sketch4, caption: t("about.caption4") },
+];
+
+const paragraphs = [t("about.p1"), t("about.p2"), t("about.p3"), t("about.p4")];
+---
+
+<section
+  id="about"
+  class="relative bg-paper px-8 py-24 sm:px-14 lg:px-20 lg:py-0"
+  aria-labelledby="about-heading"
+  data-about
+>
+  <FrameLines bottom={false} />
+  <FloatingCircle variant="galaxy" class="top-[18%] right-[10%] size-4 sm:size-6" depth={1.5} />
+
+  <div class="grid gap-16 lg:min-h-svh lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-20">
+    <div class="flex justify-center lg:col-span-5 lg:justify-start lg:pl-[6%]">
+      <div class="camera relative mb-[70%] w-[min(64vw,300px)] lg:mb-0 lg:w-[min(22vw,34vh)]" data-camera>
+        <Image
+          src={camera}
+          alt=""
+          widths={[400, 640, 832]}
+          sizes="(min-width: 1024px) 24vw, 72vw"
+          class="sketch-blend relative z-10 block h-auto w-full"
+          data-camera-body
+          loading="eager"
+        />
+
+        <ul
+          class="absolute inset-x-[19%] top-[79.5%] z-20 aspect-[1/1.05]"
+          role="list"
+          data-print-tray
+        >
+          {
+            photos.map((photo, i) => (
+              <li class="polaroid absolute inset-x-0 top-0" data-polaroid style={`z-index: ${i + 1}`}>
+                <figure class="bg-stardust p-[6%] pb-0 shadow-[0_1px_2px_rgb(0_0_0/0.08),0_8px_24px_-8px_rgb(0_0_0/0.25)]">
+                  <Image
+                    src={photo.src}
+                    alt={photo.caption}
+                    widths={[320, 480, 640]}
+                    sizes="(min-width: 1024px) 18vw, 50vw"
+                    class="block aspect-[1264/842] w-full object-cover"
+                    data-polaroid-photo
+                    loading="eager"
+                  />
+                  <figcaption class="font-display flex h-[3.2em] items-center justify-center text-[clamp(0.7rem,1.1vw,0.95rem)] text-graphite">
+                    {photo.caption}
+                  </figcaption>
+                </figure>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="lg:col-span-6 lg:col-start-7">
+      <SectionLabel index="01" label={t("about.label")} meta="Polaroid / 4 exp." />
+      <h2
+        id="about-heading"
+        class="mt-8 font-display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.95] text-balance"
+        data-reveal
+      >
+        {t("about.title")}
+      </h2>
+      <div class="mt-10 flex max-w-[52ch] flex-col gap-5 text-base leading-relaxed text-graphite sm:text-lg">
+        {
+          paragraphs.map((p, i) => (
+            <p class="flex gap-4" data-about-copy>
+              <span class="label-mono pt-[0.45em] text-graphite/50">0{i + 1}</span>
+              <span>{p}</span>
+            </p>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>

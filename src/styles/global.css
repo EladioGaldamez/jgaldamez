@@ -1,132 +1,67 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Request";
-  src: url("../assets/fonts/Request.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Iosevka";
-  src: url("../assets/fonts/Iosevka-ExtendedLight.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Iosevka";
-  src: url("../assets/fonts/Iosevka-Extended.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Iosevka";
-  src: url("../assets/fonts/Iosevka-ExtendedMedium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
-  --font-mono: "Iosevka", ui-monospace, monospace;
-  --font-request: "Request", ui-sans-serif, system-ui, sans-serif;
+  --color-stardust: #fafafa;
+  --color-moonrock: #cccccc;
+  --color-ash: #999999;
+  --color-matter: #292929;
+  --color-space: #0a0a0a;
+  --color-galaxy: #9ee7ff;
+  --color-nebula: #ffb5e5;
+  --color-ink: #121212;
+  --color-paper: #efedea;
+  --color-graphite: #3a3a3a;
 
-  --color-background: #000000;
-  --color-foreground: #ffffff;
-  --color-muted: #1a1a1a;
-  --color-muted-foreground: #a3a3a3;
-  --color-border: rgba(255, 255, 255, 0.18);
-  --color-accent: #ffffff;
-  --color-ring: #ffffff;
-  --color-grid: rgba(255, 255, 255, 0.08);
-  --color-scanline: rgba(255, 255, 255, 0.04);
+  --font-display: "Fredericka the Great", serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
 }
 
 @layer base {
   html {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-paper text-ink antialiased;
+    scrollbar-color: var(--color-ash) transparent;
   }
 
   body {
-    @apply min-h-dvh font-mono bg-background text-foreground overflow-x-hidden;
-  }
-
-  a {
-    @apply text-foreground transition-opacity duration-200;
-  }
-
-  a:hover {
-    @apply opacity-60;
-  }
-
-  a:focus-visible {
-    @apply outline-2 outline-offset-2 outline-ring rounded-none;
+    @apply min-h-dvh overflow-x-hidden font-body;
   }
 
   ::selection {
-    @apply bg-foreground text-background;
+    @apply bg-nebula text-ink;
   }
 }
 
-@utility moon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(90vw, 720px);
-  height: min(90vw, 720px);
-  translate: -42% -38%;
-  border-radius: 50%;
-  opacity: 0.4;
-  filter: blur(1px);
-  background:
-    radial-gradient(
-      circle at 38% 35%,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.18) 28%,
-      rgba(255, 255, 255, 0.06) 52%,
-      transparent 72%
-    ),
-    radial-gradient(
-      circle at 62% 68%,
-      rgba(255, 255, 255, 0.12) 0%,
-      transparent 40%
-    );
+@utility sketch-blend {
+  mix-blend-mode: multiply;
 }
 
-@utility grain {
-  position: absolute;
+@utility label-mono {
+  @apply font-mono text-[0.6875rem] tracking-[0.18em] uppercase;
+}
+
+/* Paper grain over the whole page */
+.paper-grain {
+  position: fixed;
   inset: 0;
-  opacity: 0.12;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-@utility bg-scanline {
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 2px,
-    var(--color-scanline) 2px,
-    var(--color-scanline) 3px
-  );
-}
-
-@utility bio-grid {
-  position: relative;
-  padding: 1.25rem 1.5rem;
-  background-color: rgba(0, 0, 0, 0.35);
-  background-image:
-    linear-gradient(var(--color-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
-  background-size: 28px 28px;
+/* Hide reveal targets until JS animates them (only when JS is running) */
+.js [data-reveal],
+.js [data-reveal-stagger] > * {
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-reveal-stagger] > * {
+    opacity: 1;
+  }
+
   *,
   *::before,
   *::after {
