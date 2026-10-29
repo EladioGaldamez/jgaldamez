@@ -46,7 +46,7 @@ export const dogs: Dog[] = [
     image: nala,
     name: "Nala",
     role: { en: "The baby of the family", es: "La bebé de la familia" },
-    born: { en: "2024", es: "2024" },
+    born: { en: "Jan 10, 2024", es: "10 ene 2024" },
     adopted: {
       en: "By my sister — I'm the babysitter",
       es: "Por mi hermana — yo la cuido",
