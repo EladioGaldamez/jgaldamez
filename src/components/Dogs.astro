@@ -20,7 +20,7 @@ const t = useTranslations(lang);
   <FrameLines bottom={false} />
   <FloatingCircle variant="nebula" class="top-[8%] right-[18%] size-3 sm:size-4" depth={1.8} />
 
-  <SectionLabel index="04" label={t("dogs.label")} meta={`${dogs.length} ${t("dogs.count")}`} />
+  <SectionLabel index="03" label={t("dogs.label")} meta={`${dogs.length} ${t("dogs.count")}`} />
 
   <div class="mt-8 grid gap-6 lg:grid-cols-12">
     <h2
@@ -81,7 +81,7 @@ const t = useTranslations(lang);
               <div
                 class:list={[
                   "relative mx-auto w-full lg:col-span-6",
-                  landscape ? "max-w-[640px]" : "max-w-[500px]",
+                  landscape ? "max-w-160" : "max-w-125",
                   flipped ? "lg:order-2 lg:col-start-7" : "lg:col-start-1",
                 ]}
               >
@@ -95,7 +95,7 @@ const t = useTranslations(lang);
                     data-sketch-reveal
                   />
                 ) : (
-                  <div class="relative aspect-[5/4]">
+                  <div class="relative aspect-5/4">
                     <svg class="absolute inset-0 size-full text-graphite" viewBox="0 0 400 320" fill="none" aria-hidden="true">
                       <path
                         d="M60 70C120 20 290 18 345 62c47 38 43 168-5 206-60 42-220 38-278-6C18 228 14 110 60 70Z"
